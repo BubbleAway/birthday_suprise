@@ -1,122 +1,307 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Happy Birthday</title>
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      width: 100vw;
-      position: relative;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
 
-    h1 {
-      position: absolute;
-      top: 40px;
-      width: 100%;
-      text-align: center;
-      font-size: 36px;
-    }
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
 
-    .btn {
-      position: absolute;
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 999px;
-      font-size: 20px;
-      padding: 20px 50px;
-      cursor: pointer;
-    }
+/* ================== SECTIONS ================== */
+.section {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #0000ff, #6e026e, #000000);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 
-    #btn1 {
-      left: 80px;
-      top: 250px;
-    }
+.section.active {
+  display: flex;
+}
 
-    #btn2 {
-      left: 80px;
-      top: 400px;
-    }
+@keyframes gradientMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
 
-    #btn3 {
-      right: 80px;
-      top: 400px;
-    }
+/* ================== SHAKE ================== */
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  20% { transform: translate(-15px,10px); }
+  40% { transform: translate(15px,-10px); }
+  60% { transform: translate(-15px,-10px); }
+  80% { transform: translate(15px,10px); }
+  100% { transform: translate(0,0); }
+}
+.shake {
+  animation: shake 0.4s infinite;
+}
 
-    #btn4 {
-      right: 80px;
-      top: 250px;
-    }
+/* ================== FLASH ================== */
+#flash {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.1s;
+}
 
-    .message {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: black;
-      color: white;
-      text-align: center;
-      padding-top: 200px;
-    }
+/* ================== POPUP ================== */
+#popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.95);
+  color: white;
+  padding: 30px 35px;
+  border-radius: 14px;
+  font-size: 18px;
+  display: none;
+  z-index: 10000;
+  max-width: 90%;
+  line-height: 1.5;
+}
 
-    .message h2 {
-      font-size: 60px;
-    }
+#popupClose {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 26px;
+  cursor: pointer;
+  color: white;
+}
 
-    .message button {
-      margin-top: 40px;
-      font-size: 24px;
-      padding: 15px 40px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+/* ================== HOME ================== */
+.title {
+  font-size: clamp(40px, 8vw, 80px);
+  margin-bottom: 40px;
+}
+
+.nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 30px;
+}
+
+.nav-buttons button {
+  padding: 20px 30px;
+  font-size: 20px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  background: #9c028d;
+  color: white;
+}
+
+/* ================== CONFETTI (HOME ONLY) ================== */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* ================== SECTION 4 ================== */
+#counter {
+  font-size: clamp(28px, 6vw, 48px);
+}
+
+#moveBtn {
+  position: absolute;
+  padding: 20px 40px;
+  font-size: 22px;
+  border-radius: 12px;
+  border: none;
+  background: rgb(0, 8, 124);
+  color: white;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-  <h1>Happy Birthday</h1>
+<div id="flash"></div>
 
-  <button class="btn" id="btn1" onclick="showMessage(1)">Button one</button>
-  <button class="btn" id="btn2" onclick="showMessage(2)">Button two</button>
-  <button class="btn" id="btn3" onclick="showMessage(3)">Button three</button>
-  <button class="btn" id="btn4" onclick="showMessage(4)">Button four</button>
+<div id="popup">
+  <span id="popupClose">×</span>
+  So here is now the message (sorry for the small jumpscare, had to be)<br><br>
+  I wanted to thank you for all the time we spend together. Even tho I am very bad in Valorant it was still fun playing it with you.<br><br>
+  I also wanted to thank you for all of the times you were there to text with me when I needed it.<br><br>
+  Because I didn't know how to wish you a great birthday otherwise (I had many ideas but none of them seemed good enough)<br><br>
+  I decided to just simply write 300 lines of code to wish you a happy birthday in this way<br><br>
+  I hope you have a great birthday 
+</div>
 
-  <div class="message" id="msg1">
-    <h2>🎉 Surprise One!</h2>
-    <button onclick="goBack()">Back</button>
+<div class="confetti" id="confetti"></div>
+
+<!-- ================== HOME ================== -->
+<div id="home" class="section active">
+  <div class="title">🎉 Happy Birthday! 🎉</div>
+  <div class="nav-buttons">
+    <button onclick="showSection('section1')">✉️ A Message for You</button>
+    <button onclick="showSection('section2')">🎂 Fun Facts</button>
+    <button onclick="showSection('section3')">🔮 Birthday Fortune</button>
+    <button onclick="showSection('section4')">❌ Save this one for last</button>
   </div>
+</div>
 
-  <div class="message" id="msg2">
-    <h2>🎂 Surprise Two!</h2>
-    <button onclick="goBack()">Back</button>
-  </div>
+<!-- ================== SECTION 1 ================== -->
+<div id="section1" class="section">
+  <h1>✉️ A Message for You</h1>
+  <p>
+    I didn't want to make it too easy to see the message,<br>
+    so I hid it behind 50 button presses.<br>
+    (I don't recommend wearing a headset)
+  </p>
+  <button onclick="showSection('home')">Back to Home</button>
+</div>
 
-  <div class="message" id="msg3">
-    <h2>🎁 Surprise Three!</h2>
-    <button onclick="goBack()">Back</button>
-  </div>
+<!-- ================== SECTION 2 ================== -->
+<div id="section2" class="section">
+  <h1>🎂 Fun Birthday Facts</h1>
+  <p>
+    • You can now buy and consume alcohol<br>
+    • You can adopt children (if legal conditions are met)<br>
+    • You can rent cars (some companies require 21+)
+  </p>
+  <button onclick="showSection('home')">Back to Home</button>
+</div>
 
-  <div class="message" id="msg4">
-    <h2>✨ Surprise Four!</h2>
-    <button onclick="goBack()">Back</button>
-  </div>
+<!-- ================== SECTION 3 ================== -->
+<div id="section3" class="section">
+  <h1>🔮 Birthday Fortune</h1>
+  <p>
+    You are now 18.<br>
+    That’s basically the fortune.<br>
+    (And I can call you a pedophile now :D)
+  </p>
+  <button onclick="showSection('home')">Back to Home</button>
+</div>
 
-  <script>
-    function showMessage(num) {
-      document.querySelectorAll('.message').forEach(m => m.style.display = 'none');
-      document.getElementById('msg' + num).style.display = 'block';
-    }
+<!-- ================== SECTION 4 ================== -->
+<div id="section4" class="section">
 
-    function goBack() {
-      document.querySelectorAll('.message').forEach(m => m.style.display = 'none');
-    }
-  </script>
+  <h1 id="counter">0 / 50</h1>
+  <p>Press this button 50 times for the surprise</p>
+
+  <button id="moveBtn">Press Me</button>
+
+  <button onclick="showSection('home')" style="margin-top:40px;">
+    Back to Home
+  </button>
+
+  <audio id="jumpscareSound" src="assets/jumpscare.mp3" preload="auto"></audio>
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById("confetti").style.display = id === "home" ? "block" : "none";
+}
+
+/* ================== CONFETTI ================== */
+const confetti = document.getElementById("confetti");
+setInterval(() => {
+  if (confetti.style.display === "none") return;
+  const p = document.createElement("div");
+  p.className = "confetti-piece";
+  p.style.left = Math.random() * innerWidth + "px";
+  p.style.background = `hsl(${Math.random()*360},100%,50%)`;
+  p.style.animationDuration = 2 + Math.random() * 3 + "s";
+  confetti.appendChild(p);
+  setTimeout(() => p.remove(), 5000);
+}, 100);
+
+/* ================== SECTION 4 ================== */
+const btn = document.getElementById("moveBtn");
+const counter = document.getElementById("counter");
+const sound = document.getElementById("jumpscareSound");
+const flash = document.getElementById("flash");
+const popup = document.getElementById("popup");
+
+let count = 0;
+let unlocked = false;
+
+function moveButton() {
+  btn.style.left = Math.random() * (innerWidth - btn.offsetWidth - 20) + "px";
+  btn.style.top = Math.random() * (innerHeight - btn.offsetHeight - 20) + "px";
+}
+
+btn.onclick = () => {
+  if (count >= 50) return;
+
+  if (!unlocked) {
+    sound.play().then(() => {
+      sound.pause();
+      sound.currentTime = 0;
+      unlocked = true;
+    }).catch(()=>{});
+  }
+
+  count++;
+  counter.textContent = count + " / 50";
+  moveButton();
+
+  if (count === 49) {
+    btn.textContent = "FINAL PRESS";
+
+    flash.style.opacity = "1";
+    flash.style.background = "black";
+    setTimeout(()=>flash.style.background="white",100);
+    setTimeout(()=>flash.style.opacity="0",200);
+
+    sound.currentTime = 0;
+    sound.play();
+    document.body.classList.add("shake");
+    setTimeout(()=>document.body.classList.remove("shake"),500);
+  }
+
+  if (count === 50) {
+    btn.style.display = "none";
+    popup.style.display = "block";
+  }
+};
+
+document.getElementById("popupClose").onclick = () => {
+  popup.style.display = "none";
+};
+
+moveButton();
+</script>
 
 </body>
 </html>
