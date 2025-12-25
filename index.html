@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -54,15 +54,22 @@ html, body {
 /* ===== POPUP ===== */
 #popup {
   position: fixed; top:50%; left:50%; transform: translate(-50%,-50%);
-  display:none; background: linear-gradient(135deg,#4b0082,#9b59b6);
-  color:white; text-align:center; padding:40px 50px; z-index: 20000;
+  display:none; 
+  background: linear-gradient(135deg,#1e3c72,#6b21a8,#000,#1e3c72);
+  background-size: 400% 400%; animation: popupGradient 10s ease infinite;
+  color:white; text-align:center; padding:40px 50px; z-index:20000;
   font-size:18px; border-radius:15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); max-width:90%;
 }
-#popupClose {
-  position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer;
-}
+#popupClose { position:absolute; top:10px; right:14px; font-size:26px; cursor:pointer; color:white; }
 
 /* ===== GRADIENT ANIMATION ===== */
+@keyframes popupGradient {
+  0% { background-position:0% 50%; }
+  25% { background-position:50% 50%; }
+  50% { background-position:100% 50%; }
+  75% { background-position:50% 50%; }
+  100% { background-position:0% 50%; }
+}
 @keyframes gradientMoveCode {
   0% { background-position:0% 0%; }
   50% { background-position:0% 100%; }
@@ -142,7 +149,6 @@ const home = document.getElementById("home");
 function showSection(id){
   sections.forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // Show falling confetti only on home
   if(id==="home") fallingConfetti.style.display="block";
   else fallingConfetti.style.display="none";
 }
@@ -192,7 +198,6 @@ document.body.appendChild(fallingConfetti);
 
 setInterval(() => {
   if(fallingConfetti.style.display==="none") return;
-  // spawn multiple pieces at once for more density
   for(let i=0;i<6;i++){
     const p = document.createElement("div");
     p.style.position="absolute";
@@ -207,20 +212,17 @@ setInterval(() => {
     fallingConfetti.appendChild(p);
     setTimeout(()=>p.remove(),7000);
   }
-}, 50); // spawn faster
+}, 50);
 
 const style = document.createElement("style");
-style.innerHTML = `
-@keyframes fall {
-  to { transform: translateY(100vh) rotate(720deg); opacity:0; }
-}`;
+style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity:0; } }`;
 document.head.appendChild(style);
 
 /* ===== BIG CONFETTI BURST ===== */
 function burstConfetti(){
   const centerX = window.innerWidth/2;
   const centerY = window.innerHeight/2;
-  for(let i=0;i<600;i++){ // double number for huge explosion
+  for(let i=0;i<600;i++){
     const p = document.createElement("div");
     p.style.position="absolute";
     p.style.width=(10+Math.random()*8)+"px";
@@ -245,4 +247,5 @@ function burstConfetti(){
 </script>
 </body>
 </html>
+
 
