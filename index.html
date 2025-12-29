@@ -5,86 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday</title>
 <style>
-/* ===== GLOBAL ===== */
 html, body {
-  margin:0; padding:0;
-  width:100%; height:100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   font-family: Arial, sans-serif;
   overflow: hidden;
+  background: #333;
 }
 
-/* ===== CODE GATE ===== */
+/* CODE GATE */
 #codeGate {
-  position: fixed; inset:0;
-  display: flex; flex-direction: column; align-items:center; justify-content:center;
-  background: linear-gradient(135deg, #000000, #2a2a2a);
-  background-size: 400% 400%;
+  position: fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background: linear-gradient(135deg,#000,#2a2a2a);
+  background-size:400% 400%;
   animation: gradientMoveCode 15s linear infinite;
-  color: white; z-index: 10000;
+  color:white; z-index:10000;
 }
-#codeGate h2 { font-size:28px; margin-bottom:15px; }
-#codeInput { padding:12px 15px; font-size:18px; border-radius:8px; border:none; text-align:center; }
-#submitCode { margin-top:15px; padding:12px 20px; font-size:18px; border-radius:10px; border:none; cursor:pointer; background:#8a00ff; color:white; }
-#codeError { margin-top:10px; font-size:14px; min-height:18px; color:#ff4c4c; }
+#codeGate h2 { font-size:2rem; margin-bottom:15px; text-align:center; }
+#codeInput { padding:12px 15px; font-size:1.2rem; border-radius:8px; border:none; text-align:center; width:150px; max-width:80vw; }
+#submitCode { margin-top:15px; padding:12px 20px; font-size:1.2rem; border-radius:10px; border:none; cursor:pointer; background:#8a00ff; color:white; }
+#codeError { margin-top:10px; font-size:0.9rem; min-height:18px; color:#ff4c4c; text-align:center; }
 
-/* ===== SECTIONS ===== */
+/* SECTIONS */
 .section {
-  position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
+  position:absolute; inset:0; display:none;
+  flex-direction:column; align-items:center; justify-content:center;
   color:white; text-align:center; padding:20px;
-  background-size: 400% 400%;
+  background-size:400% 400%;
   animation: gradientMoveSection 20s linear infinite;
 }
 .section.active { display:flex; }
 
-#home, #section1, #section2, #section3 { background: linear-gradient(135deg,#330066,#b300cc); }
-#section4 { background: linear-gradient(135deg,#001f4d,#0033cc); }
+#home, #section1, #section2, #section3 { background:linear-gradient(135deg,#330066,#b300cc); }
+#section4 { background:linear-gradient(135deg,#001f4d,#0033cc); }
 
-.title { font-size:clamp(40px,8vw,80px); margin-bottom:40px; }
-.nav-buttons { display:grid; grid-template-columns: repeat(2, auto); gap:30px; }
-.nav-buttons button, .backHome {
-  padding: 24px 44px; font-size:22px; border-radius:15px;
-  border:none; cursor:pointer; background:#9c028d; color:white;
+.title { font-size:clamp(2rem,8vw,5rem); margin-bottom:40px; text-align:center; }
+.nav-buttons {
+  display:grid;
+  grid-template-columns:repeat(2, auto);
+  gap:20px;
 }
-.backHome { margin-top:40px; background:#7a00ff; }
+.nav-buttons button, .backHome {
+  padding:16px 20px; font-size:1.2rem; border-radius:12px; border:none; cursor:pointer;
+  background:#9c028d; color:white; min-width:140px; text-align:center;
+}
+.backHome { margin-top:30px; background:#7a00ff; }
 
 /* 50 BUTTON GAME */
-#counter { font-size:clamp(28px,6vw,48px); }
-#moveBtn { position:absolute; padding:22px 42px; font-size:22px; border-radius:12px; border:none; background:#002fa7; color:white; cursor:pointer; }
+#counter { font-size:clamp(1.5rem,5vw,3rem); margin-bottom:20px; text-align:center; }
+#moveBtn {
+  position:absolute; padding:16px 30px; font-size:1.2rem;
+  border-radius:12px; border:none; background:#002fa7; color:white; cursor:pointer;
+}
 
-/* ===== POPUP ===== */
+/* POPUP */
+
 #popup {
-  position: fixed; top:50%; left:50%; transform: translate(-50%,-50%);
-  display:none; 
-  background: linear-gradient(135deg,#1e3c72,#6b21a8,#000,#1e3c72);
-  background-size: 400% 400%; animation: popupGradient 10s ease infinite;
-  color:white; text-align:center; padding:40px 50px; z-index:20000;
-  font-size:18px; border-radius:15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); max-width:90%;
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  display:none;
+  background: rgba(0,0,255,0.7); /* initial color for gradient animation */
+  color:white; text-align:center;
+  padding:30px 40px;
+  z-index:20000;
+  font-size:1rem;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  max-width:90%;
+  animation: popupGradient 10s ease infinite; /* re-add animation */
 }
-#popupClose { position:absolute; top:10px; right:14px; font-size:26px; cursor:pointer; color:white; }
 
-/* ===== GRADIENT ANIMATION ===== */
 @keyframes popupGradient {
-  0% { background-position:0% 50%; }
-  25% { background-position:50% 50%; }
-  50% { background-position:100% 50%; }
-  75% { background-position:50% 50%; }
-  100% { background-position:0% 50%; }
+  0% { background: rgba(0,0,255,0.7); }
+  33% { background: rgba(155,0,255,0.7); }
+  66% { background: rgba(0,0,0,0.7); }
+  100% { background: rgba(0,0,255,0.7); }
 }
-@keyframes gradientMoveCode {
-  0% { background-position:0% 0%; }
-  50% { background-position:0% 100%; }
-  100% { background-position:0% 0%; }
+
+#popupClose {
+  position:absolute; top:10px; right:14px;
+  font-size:1.5rem; cursor:pointer; color:white;
 }
-@keyframes gradientMoveSection {
-  0% { background-position:0% 0%; }
-  50% { background-position:100% 100%; }
-  100% { background-position:0% 0%; }
+
+/* SLIME CONFETTI */
+.slime-img { position:absolute; width:32px; height:32px; pointer-events:none; image-rendering:pixelated; }
+
+@keyframes fall { from{transform:translateY(-40px) rotate(0deg); opacity:1;} to{transform:translateY(110vh) rotate(360deg); opacity:0;} }
+@keyframes gradientMoveCode { 0%{background-position:0% 0%} 50%{background-position:0% 100%} 100%{background-position:0% 0%} }
+@keyframes gradientMoveSection { 0%{background-position:0% 0%} 50%{background-position:100% 100%} 100%{background-position:0% 0%} }
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .nav-buttons { grid-template-columns:1fr; gap:15px; }
+  .nav-buttons button, .backHome { font-size:1rem; padding:14px 16px; min-width:100px; }
+  #moveBtn { font-size:1rem; padding:12px 20px; }
 }
 </style>
 </head>
+
 <body>
 
-<!-- ===== CODE GATE ===== -->
 <div id="codeGate">
   <h2>Please Enter Code</h2>
   <input id="codeInput" type="password" maxlength="6" placeholder="Enter code">
@@ -92,26 +113,25 @@ html, body {
   <div id="codeError"></div>
 </div>
 
-<!-- ===== HOME SCREEN ===== -->
 <div id="home" class="section">
   <div class="title">🎉 Happy Birthday! 🎉</div>
   <div class="nav-buttons">
-    <button onclick="showSection('section1')">✉️ A Message for You</button>
-    <button onclick="showSection('section2')">🎂 Fun Facts</button>
+    <button onclick="showSection('section1')">✉️ Short Message</button>
+    <button onclick="showSection('section2')">🎂 Short Facts</button>
     <button onclick="showSection('section3')">🔮 Birthday Fortune</button>
-    <button onclick="showSection('section4')">❌ Save this one for last</button>
+    <button onclick="showSection('section4')">❌ Save for last</button>
   </div>
 </div>
 
 <div id="section1" class="section">
-  <h1>✉️ A Message for You</h1>
+  <h1>✉️ Short Message</h1>
   <p>I didn't want to make it too easy to see the message,<br>so it's hidden at the end.</p>
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
 <div id="section2" class="section">
   <h1>🎂 Fun Birthday Facts</h1>
-  <p>• You can now buy and consume alcohol<br>• You can adopt children<br>• You can rent cars</p>
+  <p>• You can now buy and consume alcohol (Maybe also share some)<br>• You can adopt children (Useful for your plans ig)<br>• You can rent cars (some companies require 21+)</p>
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
@@ -123,72 +143,75 @@ html, body {
 
 <div id="section4" class="section">
   <h1 id="counter">0 / 50</h1>
-  <p>Press this button 50 times for the surprise</p>
+  <p>Press the button 50 times for the surprise</p>
   <button id="moveBtn">Press Me</button>
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
-<!-- ===== POPUP MESSAGE ===== -->
 <div id="popup">
   <span id="popupClose">×</span>
   <p>I wanted to thank you for all the time we spend together. Even though I am very bad in Valorant it was still fun playing it with you.</p>
   <p>I also wanted to thank you for all the times you were there to text with me when I needed it.</p>
-  <p>Because I didn't know how to wish you a great birthday otherwise, I decided to write this code to wish you a happy birthday!</p>
+  <p>Because I didn't know how to wish you a great birthday otherwise, I decided to write this code to wish you a happy birthday!</p> 
   <p>I hope you have a great birthday 🎉</p>
 </div>
 
 <script>
-/* ===== CODE GATE ===== */
+// ===== CODE GATE =====
 const SECRET = "311225";
 const codeGate = document.getElementById("codeGate");
 const codeInput = document.getElementById("codeInput");
 const codeError = document.getElementById("codeError");
-const sections = document.querySelectorAll('.section');
-const home = document.getElementById("home");
+const sections = document.querySelectorAll(".section");
 
 function showSection(id){
-  sections.forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(id==="home") fallingConfetti.style.display="block";
-  else fallingConfetti.style.display="none";
+  sections.forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
 document.getElementById("submitCode").onclick = () => {
-  if(codeInput.value===SECRET){
-    codeGate.style.display="none";
+  if(codeInput.value === SECRET){
+    codeGate.style.display = "none";
     showSection("home");
-    burstConfetti(); // Big confetti explosion
   } else {
-    codeError.textContent="Incorrect code. Try again.";
-    codeInput.value="";
+    codeError.textContent = "Incorrect code. Try again.";
+    codeInput.value = "";
   }
-}
+};
 
-/* ===== 50 BUTTON GAME ===== */
+// ===== 50 BUTTON GAME =====
 const btn = document.getElementById("moveBtn");
 const counter = document.getElementById("counter");
-let count=0;
-
-function moveButton(){
-  btn.style.left=Math.random()*(window.innerWidth-btn.offsetWidth-20)+"px";
-  btn.style.top=Math.random()*(window.innerHeight-btn.offsetHeight-20)+"px";
-}
-moveButton();
+let count = 0;
+let firstPress = true;
 
 btn.onclick = () => {
-  if(count>=50) return;
+  if(firstPress){
+    btn.style.left = `calc(50% - ${btn.offsetWidth/2}px)`;
+    btn.style.top = `calc(50% - ${btn.offsetHeight/2}px)`;
+    firstPress = false;
+    return;
+  }
   count++;
-  counter.textContent = count+" / 50";
-  moveButton();
-  if(count===50) document.getElementById("popup").style.display="block";
-}
+  counter.textContent = count + " / 50";
+  if(count < 50){
+    const maxX = window.innerWidth - btn.offsetWidth - 10;
+    const maxY = window.innerHeight - btn.offsetHeight - 10;
+    btn.style.left = Math.random()*maxX + "px";
+    btn.style.top = Math.random()*maxY + "px";
+  } else {
+    btn.style.display = "none";
+    popup.style.display = "block";
+  }
+};
 
-/* ===== POPUP ===== */
+// ===== POPUP =====
 const popup = document.getElementById("popup");
-const popupClose = document.getElementById("popupClose");
-popupClose.onclick = ()=>{ popup.style.display="none"; }
+document.getElementById("popupClose").onclick = () => popup.style.display = "none";
 
-/* ===== FALLING CONFETTI ===== */
+// ===== SLIME CONFETTI =====
+const TOTAL_SLIMES = 43;
+function slimeIcon(){ return `assets/slime_icons/slime${Math.floor(Math.random()*TOTAL_SLIMES+1)}.png`; }
 const fallingConfetti = document.createElement("div");
 fallingConfetti.style.position="fixed";
 fallingConfetti.style.inset="0";
@@ -196,54 +219,19 @@ fallingConfetti.style.pointerEvents="none";
 fallingConfetti.style.zIndex="1";
 document.body.appendChild(fallingConfetti);
 
-setInterval(() => {
+setInterval(()=>{
   if(fallingConfetti.style.display==="none") return;
-  for(let i=0;i<6;i++){
-    const p = document.createElement("div");
-    p.style.position="absolute";
-    p.style.width=(8+Math.random()*8)+"px";
-    p.style.height=(8+Math.random()*8)+"px";
-    p.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    p.style.left=Math.random()*window.innerWidth+"px";
-    p.style.top="-15px";
-    p.style.borderRadius="50%";
-    p.style.opacity=0.7 + Math.random()*0.3;
-    p.style.animation=`fall ${3+Math.random()*3}s linear forwards`;
-    fallingConfetti.appendChild(p);
-    setTimeout(()=>p.remove(),7000);
+  for(let i=0;i<2;i++){
+    const img=document.createElement("img");
+    img.src = slimeIcon();
+    img.className = "slime-img";
+    img.style.left = Math.random()*window.innerWidth+"px";
+    img.style.top = "-40px";
+    img.style.animation = `fall ${3+Math.random()*3}s linear forwards`;
+    fallingConfetti.appendChild(img);
+    setTimeout(()=>img.remove(),7000);
   }
-}, 50);
-
-const style = document.createElement("style");
-style.innerHTML = `@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity:0; } }`;
-document.head.appendChild(style);
-
-/* ===== BIG CONFETTI BURST ===== */
-function burstConfetti(){
-  const centerX = window.innerWidth/2;
-  const centerY = window.innerHeight/2;
-  for(let i=0;i<600;i++){
-    const p = document.createElement("div");
-    p.style.position="absolute";
-    p.style.width=(10+Math.random()*8)+"px";
-    p.style.height=(10+Math.random()*8)+"px";
-    p.style.background=`hsl(${Math.random()*360},100%,50%)`;
-    p.style.borderRadius="50%";
-    p.style.left=centerX+"px";
-    p.style.top=centerY+"px";
-    p.style.pointerEvents="none";
-    document.body.appendChild(p);
-    
-    const angle = Math.random()*2*Math.PI;
-    const distance = 600 + Math.random()*300;
-    p.animate([
-      { transform: "translate(0,0)", opacity:1 },
-      { transform: `translate(${Math.cos(angle)*distance}px,${Math.sin(angle)*distance}px)`, opacity:0 }
-    ], { duration:3000+Math.random()*1000, easing:"ease-out" });
-    
-    setTimeout(()=>p.remove(),4000);
-  }
-}
+},60);
 </script>
 </body>
 </html>
