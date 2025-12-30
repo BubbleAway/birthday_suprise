@@ -60,12 +60,11 @@ html, body {
   border-radius:12px; border:none; background:#002fa7; color:white; cursor:pointer;
 }
 
-/* POPUP */
-
+/* POPUP — now fully solid colors, no transparency */
 #popup {
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
   display:none;
-  background: rgba(0,0,255,0.7); 
+  background:#0000ff;
   color:white; text-align:center;
   padding:30px 40px;
   z-index:20000;
@@ -73,14 +72,14 @@ html, body {
   border-radius:15px;
   box-shadow:0 0 20px rgba(0,0,0,0.5);
   max-width:90%;
-  animation: popupGradient 10s ease infinite; 
+  animation: popupGradient 10s ease infinite;
 }
 
 @keyframes popupGradient {
-  0% { background: rgba(0,0,255,0.7); }
-  33% { background: rgba(155,0,255,0.7); }
-  66% { background: rgba(0,0,0,0.7); }
-  100% { background: rgba(0,0,255,0.7); }
+  0%   { background:#0000ff; }
+  33%  { background:#9b00ff; }
+  66%  { background:#000000; }
+  100% { background:#0000ff; }
 }
 
 #popupClose {
@@ -88,14 +87,14 @@ html, body {
   font-size:1.5rem; cursor:pointer; color:white;
 }
 
-/* SLIME CONFETTI (background rain) */
+/* SLIME CONFETTI */
 .slime-img { position:absolute; width:32px; height:32px; pointer-events:none; image-rendering:pixelated; }
 
 @keyframes fall { from{transform:translateY(-40px) rotate(0deg); opacity:1;} to{transform:translateY(110vh) rotate(360deg); opacity:0;} }
 @keyframes gradientMoveCode { 0%{background-position:0% 0%} 50%{background-position:0% 100%} 100%{background-position:0% 0%} }
 @keyframes gradientMoveSection { 0%{background-position:0% 0%} 50%{background-position:100% 100%} 100%{background-position:0% 0%} }
 
-/* 🎊 COLORFUL CONFETTI EXPLOSION (only after code unlock) */
+/* CONFETTI EXPLOSION */
 .confetti-piece {
   position: fixed;
   width: 10px;
@@ -146,7 +145,7 @@ html, body {
 
 <div id="section2" class="section">
   <h1>🎂 Fun Birthday Facts</h1>
-  <p>• You can now buy and consume alcohol (Maybe also share some)<br>• You can adopt children (Useful for your plans ig)<br>• You can rent cars (some companies require 21+)</p>
+  <p>• You can now buy and consume alcohol<br>• You can adopt children<br>• You can rent cars (some companies require 21+)</p>
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
@@ -171,7 +170,7 @@ html, body {
   <p>So I am now writing trhis whsilst you are singing "I want it that way" cus I felt like it was a bit short,</p>
   <p>I just want to add that I really enjoy spending time with you and it's just nice actually spending time with someone who also likes</p>
   <p>It so it's not just one sided, thanks a lot for all the time and help</p>
-  <p>I hope you have a great birthday 🎉</p>
+  <p>❤️ I hope you have a great birthday 🎉</p>
 </div>
 
 <script>
@@ -191,7 +190,7 @@ document.getElementById("submitCode").onclick = () => {
   if(codeInput.value === SECRET){
     codeGate.style.display = "none";
     showSection("home");
-    burstConfetti();   // 🎊 colorful explosion here
+    burstConfetti();
   } else {
     codeError.textContent = "Incorrect code. Try again.";
     codeInput.value = "";
@@ -228,7 +227,7 @@ btn.onclick = () => {
 const popup = document.getElementById("popup");
 document.getElementById("popupClose").onclick = () => popup.style.display = "none";
 
-// ===== SLIME CONFETTI (background rain stays slimes) =====
+// ===== SLIME CONFETTI (background rain) =====
 const TOTAL_SLIMES = 43;
 function slimeIcon(){ return `assets/slime_icons/slime${Math.floor(Math.random()*TOTAL_SLIMES+1)}.png`; }
 const fallingConfetti = document.createElement("div");
@@ -252,7 +251,7 @@ setInterval(()=>{
   }
 },60);
 
-// 🎊 ===== COLORFUL CONFETTI EXPLOSION =====
+// ===== CONFETTI BURST =====
 function burstConfetti() {
   const colors = ["#ff4d4d","#ffd633","#66ff66","#66b3ff","#ff66ff","#ff944d"];
   const cx = window.innerWidth/2;
